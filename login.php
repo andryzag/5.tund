@@ -1,6 +1,5 @@
 <?php 
 	
-	require("../../config.php");
 	require("functions.php");
 	
 	// kui on juba sisse loginud siis suunan data lehele
@@ -11,7 +10,6 @@
 		
 	}
 	
-
 	//echo hash("sha512", "b");
 	
 	
@@ -27,50 +25,9 @@
 	$signupPasswordError = "";
 	$signupEmail = "";
 	$signupGender = "";
-	$loginEmail ="";
-	$loginEmailError = "";
-	$loginPassword = "";
-	$loginPasswordError = "";
 	
-	
-
 	// on üldse olemas selline muutja
-	if( isset( $_POST["loginEmail"] ) ){
-		
-		//jah on olemas
-		//kas on tühi
-		if( empty( $_POST["loginEmail"] ) ){
-			
-			$loginEmailError = "See väli on kohustuslik";
-			
-		} else {
-			
-			// email olemas 
-			$loginEmail = $_POST["loginEmail"];
-			
-		}
-		
-	} 
-	
-		// on üldse olemas selline muutja
-	if( isset( $_POST["loginPassword"] ) ){
-		
-		//jah on olemas
-		//kas on tühi
-		if( empty( $_POST["loginPassword"] ) ){
-			
-			$loginPasswordError = "See väli on kohustuslik";
-			
-		} else {
-			
-			// email olemas 
-			$loginPassword = $_POST["loginPassword"];
-			
-		}
-		
-	} 
-	
-		if( isset( $_POST["signupEmail"] ) ){
+	if( isset( $_POST["signupEmail"] ) ){
 		
 		//jah on olemas
 		//kas on tühi
@@ -151,17 +108,16 @@
 	
 	
 	$error ="";
-	if ( isset($_POST["loginEmail"]) && isset($_POST["loginPassword"]) && 
-		!empty($_POST["loginEmail"]) && !empty($_POST["loginPassword"])
+	if ( isset($_POST["loginEmail"]) && 
+		isset($_POST["loginPassword"]) && 
+		!empty($_POST["loginEmail"]) && 
+		!empty($_POST["loginPassword"])
 	  ) {
 		  
 		$error = login($_POST["loginEmail"], $_POST["loginPassword"]);
 		
 	}
 	
-	
-	
-
 ?>
 <!DOCTYPE html>
 <html>
@@ -170,38 +126,34 @@
 </head>
 <body>
 
-<h1 style="color:Red;">Logi sisse</h1>
+	<h1>Logi sisse</h1>
 	<form method="POST">
 		<p style="color:red;"><?=$error;?></p>
+		<label>E-post</label>
+		<br>
 		
-		
-		<input name="loginEmail" placeholder="E-post" value="<?=$loginEmail;?>"><?php echo $loginEmailError; ?>
-		
+		<input name="loginEmail" type="text">
 		<br><br>
 		
-		<input type="password" name="loginPassword" placeholder="Parool"><?php echo $loginPasswordError; ?>
+		<input type="password" name="loginPassword" placeholder="Parool">
 		<br><br>
 		
 		<input type="submit" value="Logi sisse">
+		
+		
 	</form>
 	
 	
 	<h1>Loo kasutaja</h1>
 	<form method="POST">
 		
-	
-		
-		
-		<input type="username" name="signupEmail" placeholder="E-Post"> <?php echo $signupEmailError; ?>
+		<label>E-post</label>
 		<br>
 		
-		
-		
-		<br>
-		<input type="password" name="signupPassword" placeholder="Parool"> <?php echo $signupPasswordError; ?>
+		<input name="signupEmail" type="text" value="<?=$signupEmail;?>"> <?=$signupEmailError;?>
 		<br><br>
 		
-			<?php if($signupGender == "male") { ?>
+		<?php if($signupGender == "male") { ?>
 			<input type="radio" name="signupGender" value="male" checked> Male<br>
 		<?php }else { ?>
 			<input type="radio" name="signupGender" value="male"> Male<br>
@@ -218,10 +170,13 @@
 		<?php }else { ?>
 			<input type="radio" name="signupGender" value="other"> Other<br>
 		<?php } ?>
+		
+		
 		<br>
+		<input type="password" name="signupPassword" placeholder="Parool"> <?php echo $signupPasswordError; ?>
+		<br><br>
+		
 		<input type="submit" value="Loo kasutaja">
-		
-		
 		
 		
 	</form>
